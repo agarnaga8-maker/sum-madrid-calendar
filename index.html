@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Календар свят — СУМ Мадрид 2026–2027</title>
-<meta name="description" content="Державні, пам'ятні, релігійні та народні дати України й СУМівські свята: календар Мадридського осередку СУМ на 2026–2027 рік.">
-<meta property="og:title" content="Календар свят — СУМ Мадрид 2026–2027">
+<title>Календар свят — СУМ Мадрид</title>
+<meta name="description" content="Державні, пам'ятні, релігійні та народні дати України й СУМівські свята: календар Мадридського осередку СУМ.">
+<meta property="og:title" content="Календар свят — СУМ Мадрид">
 <meta property="og:description" content="Українські та СУМівські свята на кожен місяць. Натисніть на день — побачите подію.">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%85%3C/text%3E%3C/svg%3E">
@@ -32,6 +32,9 @@
   header .kicker{ font-size:13px; font-weight:600; color:var(--soft); margin-bottom:6px; }
   h1{ margin:0 0 10px; font-size:clamp(26px,6vw,36px); line-height:1.15; }
   .lede{ margin:0; max-width:60ch; font-size:15px; color:var(--soft); }
+
+  .notice{ margin:18px 0 0; padding:12px 14px; border:1px solid var(--burgundy); border-radius:6px; font-size:13.5px; }
+  .notice ul{ margin:6px 0 0; padding-left:18px; }
 
   .legend{ display:flex; flex-wrap:wrap; gap:8px 18px; margin:22px 0 26px; padding:12px 0;
            border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
@@ -70,8 +73,9 @@
   li.day{ display:grid; grid-template-columns:64px minmax(0,1fr); gap:12px; padding:12px 6px;
           border-bottom:1px solid var(--rule); scroll-margin-top:16px; }
   li.day:last-child{ border-bottom:none; }
-  li.day:target{ animation:flash 2.2s ease-out; }
+  li.day.flash{ animation:flash 2.2s ease-out; }
   @keyframes flash{ from{ background:var(--flash); } to{ background:transparent; } }
+  .empty-month{ padding:12px 6px; font-size:14px; color:var(--soft); }
   .date{ font-weight:600; font-size:14px; color:var(--soft); }
   .entry{ padding-left:12px; border-left:3px solid transparent; }
   .entry.state{ border-color:var(--navy); }
@@ -89,117 +93,266 @@
 
   <header>
     <div class="kicker">Мадридський осередок СУМ</div>
-    <h1>Календар свят 2026–2027</h1>
+    <h1 id="pageTitle">Календар свят</h1>
     <p class="lede">Державні, пам'ятні, релігійні та народні дати України й СУМівські свята. Натисніть на підсвічене число — відкриється подія цього дня.</p>
   </header>
 
-  <div class="legend"><span class="legend-item"><span class="dot state"></span>Державне свято</span><span class="legend-item"><span class="dot memory"></span>Пам&#x27;ятна дата</span><span class="legend-item"><span class="dot faith"></span>Релігійне свято</span><span class="legend-item"><span class="dot folk"></span>Народний звичай</span><span class="legend-item"><span class="dot sum"></span>СУМівське свято</span></div>
+  <div id="notice" class="notice" hidden></div>
+
+  <div class="legend" id="legend"></div>
 
   <section id="calendar">
-    <div class="cal-grid">
-      <div class="cal-month"><a class="cal-title" href="#month-2026-09">Вересень <span>2026</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><span class="cal-day empty"></span><a class="cal-day event sum" href="#d-2026-09-01" data-date="2026-09-01" title="День знань — початок виховного року" aria-label="1 вересня: День знань — початок виховного року">1</a><span class="cal-day" data-date="2026-09-02">2</span><span class="cal-day" data-date="2026-09-03">3</span><span class="cal-day" data-date="2026-09-04">4</span><span class="cal-day" data-date="2026-09-05">5</span><span class="cal-day" data-date="2026-09-06">6</span><span class="cal-day" data-date="2026-09-07">7</span><span class="cal-day" data-date="2026-09-08">8</span><span class="cal-day" data-date="2026-09-09">9</span><span class="cal-day" data-date="2026-09-10">10</span><span class="cal-day" data-date="2026-09-11">11</span><span class="cal-day" data-date="2026-09-12">12</span><span class="cal-day" data-date="2026-09-13">13</span><span class="cal-day" data-date="2026-09-14">14</span><span class="cal-day" data-date="2026-09-15">15</span><span class="cal-day" data-date="2026-09-16">16</span><span class="cal-day" data-date="2026-09-17">17</span><span class="cal-day" data-date="2026-09-18">18</span><span class="cal-day" data-date="2026-09-19">19</span><span class="cal-day" data-date="2026-09-20">20</span><span class="cal-day" data-date="2026-09-21">21</span><span class="cal-day" data-date="2026-09-22">22</span><span class="cal-day" data-date="2026-09-23">23</span><span class="cal-day" data-date="2026-09-24">24</span><span class="cal-day" data-date="2026-09-25">25</span><span class="cal-day" data-date="2026-09-26">26</span><span class="cal-day" data-date="2026-09-27">27</span><span class="cal-day" data-date="2026-09-28">28</span><span class="cal-day" data-date="2026-09-29">29</span><span class="cal-day" data-date="2026-09-30">30</span></div></div>
-      <div class="cal-month"><a class="cal-title" href="#month-2026-10">Жовтень <span>2026</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><a class="cal-day event state" href="#d-2026-10-01" data-date="2026-10-01" title="День захисників і захисниць України — і Покрова Пресвятої Богородиці" aria-label="1 жовтня: День захисників і захисниць України — і Покрова Пресвятої Богородиці">1</a><span class="cal-day" data-date="2026-10-02">2</span><span class="cal-day" data-date="2026-10-03">3</span><span class="cal-day" data-date="2026-10-04">4</span><span class="cal-day" data-date="2026-10-05">5</span><span class="cal-day" data-date="2026-10-06">6</span><span class="cal-day" data-date="2026-10-07">7</span><span class="cal-day" data-date="2026-10-08">8</span><span class="cal-day" data-date="2026-10-09">9</span><span class="cal-day" data-date="2026-10-10">10</span><span class="cal-day" data-date="2026-10-11">11</span><span class="cal-day" data-date="2026-10-12">12</span><span class="cal-day" data-date="2026-10-13">13</span><span class="cal-day" data-date="2026-10-14">14</span><span class="cal-day" data-date="2026-10-15">15</span><span class="cal-day" data-date="2026-10-16">16</span><span class="cal-day" data-date="2026-10-17">17</span><span class="cal-day" data-date="2026-10-18">18</span><span class="cal-day" data-date="2026-10-19">19</span><span class="cal-day" data-date="2026-10-20">20</span><span class="cal-day" data-date="2026-10-21">21</span><span class="cal-day" data-date="2026-10-22">22</span><span class="cal-day" data-date="2026-10-23">23</span><span class="cal-day" data-date="2026-10-24">24</span><span class="cal-day" data-date="2026-10-25">25</span><span class="cal-day" data-date="2026-10-26">26</span><span class="cal-day" data-date="2026-10-27">27</span><span class="cal-day" data-date="2026-10-28">28</span><span class="cal-day" data-date="2026-10-29">29</span><span class="cal-day" data-date="2026-10-30">30</span><span class="cal-day" data-date="2026-10-31">31</span></div></div>
-      <div class="cal-month"><a class="cal-title" href="#month-2026-11">Листопад <span>2026</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><a class="cal-day event faith" href="#d-2026-11-01" data-date="2026-11-01" title="День усіх святих — відвідини могил" aria-label="1 листопада: День усіх святих — відвідини могил">1</a><span class="cal-day" data-date="2026-11-02">2</span><span class="cal-day" data-date="2026-11-03">3</span><span class="cal-day" data-date="2026-11-04">4</span><span class="cal-day" data-date="2026-11-05">5</span><span class="cal-day" data-date="2026-11-06">6</span><span class="cal-day" data-date="2026-11-07">7</span><a class="cal-day event sum" href="#d-2026-11-08" data-date="2026-11-08" title="Собор Архистратига Михаїла — покровитель СУМ" aria-label="8 листопада: Собор Архистратига Михаїла — покровитель СУМ">8</a><a class="cal-day event state" href="#d-2026-11-09" data-date="2026-11-09" title="День української писемності та мови" aria-label="9 листопада: День української писемності та мови">9</a><span class="cal-day" data-date="2026-11-10">10</span><span class="cal-day" data-date="2026-11-11">11</span><span class="cal-day" data-date="2026-11-12">12</span><span class="cal-day" data-date="2026-11-13">13</span><span class="cal-day" data-date="2026-11-14">14</span><span class="cal-day" data-date="2026-11-15">15</span><span class="cal-day" data-date="2026-11-16">16</span><span class="cal-day" data-date="2026-11-17">17</span><span class="cal-day" data-date="2026-11-18">18</span><span class="cal-day" data-date="2026-11-19">19</span><span class="cal-day" data-date="2026-11-20">20</span><a class="cal-day event memory" href="#d-2026-11-21" data-date="2026-11-21" title="День Гідності та Свободи" aria-label="21 листопада: День Гідності та Свободи">21</a><span class="cal-day" data-date="2026-11-22">22</span><span class="cal-day" data-date="2026-11-23">23</span><span class="cal-day" data-date="2026-11-24">24</span><span class="cal-day" data-date="2026-11-25">25</span><span class="cal-day" data-date="2026-11-26">26</span><span class="cal-day" data-date="2026-11-27">27</span><a class="cal-day event memory" href="#d-2026-11-28" data-date="2026-11-28" title="День пам&#x27;яті жертв Голодоморів" aria-label="28 листопада: День пам&#x27;яті жертв Голодоморів">28</a><span class="cal-day" data-date="2026-11-29">29</span><a class="cal-day event folk" href="#d-2026-11-30" data-date="2026-11-30" title="Андрія — Андріївські вечорниці" aria-label="30 листопада: Андрія — Андріївські вечорниці">30</a></div></div>
-      <div class="cal-month"><a class="cal-title" href="#month-2026-12">Грудень <span>2026</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><span class="cal-day empty"></span><span class="cal-day" data-date="2026-12-01">1</span><span class="cal-day" data-date="2026-12-02">2</span><span class="cal-day" data-date="2026-12-03">3</span><span class="cal-day" data-date="2026-12-04">4</span><span class="cal-day" data-date="2026-12-05">5</span><a class="cal-day event sum" href="#d-2026-12-06" data-date="2026-12-06" title="День Збройних Сил України — і Свято Миколая" aria-label="6 грудня: День Збройних Сил України — і Свято Миколая">6</a><span class="cal-day" data-date="2026-12-07">7</span><span class="cal-day" data-date="2026-12-08">8</span><span class="cal-day" data-date="2026-12-09">9</span><span class="cal-day" data-date="2026-12-10">10</span><span class="cal-day" data-date="2026-12-11">11</span><span class="cal-day" data-date="2026-12-12">12</span><span class="cal-day" data-date="2026-12-13">13</span><span class="cal-day" data-date="2026-12-14">14</span><span class="cal-day" data-date="2026-12-15">15</span><span class="cal-day" data-date="2026-12-16">16</span><span class="cal-day" data-date="2026-12-17">17</span><span class="cal-day" data-date="2026-12-18">18</span><span class="cal-day" data-date="2026-12-19">19</span><span class="cal-day" data-date="2026-12-20">20</span><span class="cal-day" data-date="2026-12-21">21</span><span class="cal-day" data-date="2026-12-22">22</span><span class="cal-day" data-date="2026-12-23">23</span><span class="cal-day" data-date="2026-12-24">24</span><a class="cal-day event state" href="#d-2026-12-25" data-date="2026-12-25" title="Різдво Христове" aria-label="25 грудня: Різдво Христове">25</a><span class="cal-day" data-date="2026-12-26">26</span><span class="cal-day" data-date="2026-12-27">27</span><span class="cal-day" data-date="2026-12-28">28</span><span class="cal-day" data-date="2026-12-29">29</span><span class="cal-day" data-date="2026-12-30">30</span><span class="cal-day" data-date="2026-12-31">31</span></div></div>
-      <div class="cal-month"><a class="cal-title" href="#month-2027-01">Січень <span>2027</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><a class="cal-day event state" href="#d-2027-01-01" data-date="2027-01-01" title="Новий рік" aria-label="1 січня: Новий рік">1</a><span class="cal-day" data-date="2027-01-02">2</span><span class="cal-day" data-date="2027-01-03">3</span><span class="cal-day" data-date="2027-01-04">4</span><span class="cal-day" data-date="2027-01-05">5</span><a class="cal-day event faith" href="#d-2027-01-06" data-date="2027-01-06" title="Богоявлення — Водохреще, Йордан" aria-label="6 січня: Богоявлення — Водохреще, Йордан">6</a><span class="cal-day" data-date="2027-01-07">7</span><span class="cal-day" data-date="2027-01-08">8</span><span class="cal-day" data-date="2027-01-09">9</span><span class="cal-day" data-date="2027-01-10">10</span><span class="cal-day" data-date="2027-01-11">11</span><span class="cal-day" data-date="2027-01-12">12</span><span class="cal-day" data-date="2027-01-13">13</span><span class="cal-day" data-date="2027-01-14">14</span><span class="cal-day" data-date="2027-01-15">15</span><span class="cal-day" data-date="2027-01-16">16</span><span class="cal-day" data-date="2027-01-17">17</span><span class="cal-day" data-date="2027-01-18">18</span><span class="cal-day" data-date="2027-01-19">19</span><span class="cal-day" data-date="2027-01-20">20</span><span class="cal-day" data-date="2027-01-21">21</span><a class="cal-day event state" href="#d-2027-01-22" data-date="2027-01-22" title="День Соборності України" aria-label="22 січня: День Соборності України">22</a><span class="cal-day" data-date="2027-01-23">23</span><span class="cal-day" data-date="2027-01-24">24</span><span class="cal-day" data-date="2027-01-25">25</span><span class="cal-day" data-date="2027-01-26">26</span><span class="cal-day" data-date="2027-01-27">27</span><span class="cal-day" data-date="2027-01-28">28</span><a class="cal-day event memory" href="#d-2027-01-29" data-date="2027-01-29" title="День пам&#x27;яті Героїв Крут" aria-label="29 січня: День пам&#x27;яті Героїв Крут">29</a><span class="cal-day" data-date="2027-01-30">30</span><span class="cal-day" data-date="2027-01-31">31</span></div></div>
-      <div class="cal-month"><a class="cal-title" href="#month-2027-02">Лютий <span>2027</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><a class="cal-day event sum" href="#d-2027-02-01" data-date="2027-02-01" title="Річниця заснування Крайової організації СУМ в Іспанії — і Стрітення Господнє" aria-label="1 лютого: Річниця заснування Крайової організації СУМ в Іспанії — і Стрітення Господнє">1</a><a class="cal-day event sum" href="#d-2027-02-01" data-date="2027-02-02" title="Річниця заснування Крайової організації СУМ в Іспанії — і Стрітення Господнє" aria-label="2 лютого: Річниця заснування Крайової організації СУМ в Іспанії — і Стрітення Господнє">2</a><span class="cal-day" data-date="2027-02-03">3</span><span class="cal-day" data-date="2027-02-04">4</span><span class="cal-day" data-date="2027-02-05">5</span><span class="cal-day" data-date="2027-02-06">6</span><span class="cal-day" data-date="2027-02-07">7</span><span class="cal-day" data-date="2027-02-08">8</span><span class="cal-day" data-date="2027-02-09">9</span><span class="cal-day" data-date="2027-02-10">10</span><span class="cal-day" data-date="2027-02-11">11</span><span class="cal-day" data-date="2027-02-12">12</span><span class="cal-day" data-date="2027-02-13">13</span><span class="cal-day" data-date="2027-02-14">14</span><span class="cal-day" data-date="2027-02-15">15</span><span class="cal-day" data-date="2027-02-16">16</span><span class="cal-day" data-date="2027-02-17">17</span><span class="cal-day" data-date="2027-02-18">18</span><span class="cal-day" data-date="2027-02-19">19</span><a class="cal-day event memory" href="#d-2027-02-20" data-date="2027-02-20" title="День Героїв Небесної Сотні" aria-label="20 лютого: День Героїв Небесної Сотні">20</a><a class="cal-day event state" href="#d-2027-02-21" data-date="2027-02-21" title="Міжнародний день рідної мови" aria-label="21 лютого: Міжнародний день рідної мови">21</a><span class="cal-day" data-date="2027-02-22">22</span><span class="cal-day" data-date="2027-02-23">23</span><span class="cal-day" data-date="2027-02-24">24</span><span class="cal-day" data-date="2027-02-25">25</span><span class="cal-day" data-date="2027-02-26">26</span><span class="cal-day" data-date="2027-02-27">27</span><span class="cal-day" data-date="2027-02-28">28</span></div></div>
-      <div class="cal-month"><a class="cal-title" href="#month-2027-03">Березень <span>2027</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><span class="cal-day" data-date="2027-03-01">1</span><span class="cal-day" data-date="2027-03-02">2</span><span class="cal-day" data-date="2027-03-03">3</span><span class="cal-day" data-date="2027-03-04">4</span><a class="cal-day event memory" href="#d-2027-03-05" data-date="2027-03-05" title="День пам&#x27;яті Романа Шухевича — «Тарас Чупринка»" aria-label="5 березня: День пам&#x27;яті Романа Шухевича — «Тарас Чупринка»">5</a><span class="cal-day" data-date="2027-03-06">6</span><span class="cal-day" data-date="2027-03-07">7</span><a class="cal-day event state" href="#d-2027-03-08" data-date="2027-03-08" title="Міжнародний жіночий день" aria-label="8 березня: Міжнародний жіночий день">8</a><a class="cal-day event state" href="#d-2027-03-09" data-date="2027-03-09" title="День народження Тараса Шевченка" aria-label="9 березня: День народження Тараса Шевченка">9</a><span class="cal-day" data-date="2027-03-10">10</span><span class="cal-day" data-date="2027-03-11">11</span><span class="cal-day" data-date="2027-03-12">12</span><span class="cal-day" data-date="2027-03-13">13</span><a class="cal-day event folk" href="#d-2027-03-14" data-date="2027-03-14" title="Прощена неділя — завершення Масляної" aria-label="14 березня: Прощена неділя — завершення Масляної">14</a><span class="cal-day" data-date="2027-03-15">15</span><span class="cal-day" data-date="2027-03-16">16</span><span class="cal-day" data-date="2027-03-17">17</span><span class="cal-day" data-date="2027-03-18">18</span><span class="cal-day" data-date="2027-03-19">19</span><span class="cal-day" data-date="2027-03-20">20</span><span class="cal-day" data-date="2027-03-21">21</span><span class="cal-day" data-date="2027-03-22">22</span><span class="cal-day" data-date="2027-03-23">23</span><span class="cal-day" data-date="2027-03-24">24</span><a class="cal-day event faith" href="#d-2027-03-25" data-date="2027-03-25" title="Благовіщення Пресвятої Богородиці" aria-label="25 березня: Благовіщення Пресвятої Богородиці">25</a><span class="cal-day" data-date="2027-03-26">26</span><span class="cal-day" data-date="2027-03-27">27</span><span class="cal-day" data-date="2027-03-28">28</span><span class="cal-day" data-date="2027-03-29">29</span><span class="cal-day" data-date="2027-03-30">30</span><span class="cal-day" data-date="2027-03-31">31</span></div></div>
-      <div class="cal-month"><a class="cal-title" href="#month-2027-04">Квітень <span>2027</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day" data-date="2027-04-01">1</span><span class="cal-day" data-date="2027-04-02">2</span><span class="cal-day" data-date="2027-04-03">3</span><span class="cal-day" data-date="2027-04-04">4</span><span class="cal-day" data-date="2027-04-05">5</span><span class="cal-day" data-date="2027-04-06">6</span><a class="cal-day event sum" href="#d-2027-04-07" data-date="2027-04-07" title="Преподобна Йосафата Гордашевська — покровителька капеланії Мадрида" aria-label="7 квітня: Преподобна Йосафата Гордашевська — покровителька капеланії Мадрида">7</a><span class="cal-day" data-date="2027-04-08">8</span><span class="cal-day" data-date="2027-04-09">9</span><span class="cal-day" data-date="2027-04-10">10</span><span class="cal-day" data-date="2027-04-11">11</span><span class="cal-day" data-date="2027-04-12">12</span><span class="cal-day" data-date="2027-04-13">13</span><span class="cal-day" data-date="2027-04-14">14</span><span class="cal-day" data-date="2027-04-15">15</span><span class="cal-day" data-date="2027-04-16">16</span><span class="cal-day" data-date="2027-04-17">17</span><span class="cal-day" data-date="2027-04-18">18</span><span class="cal-day" data-date="2027-04-19">19</span><span class="cal-day" data-date="2027-04-20">20</span><span class="cal-day" data-date="2027-04-21">21</span><span class="cal-day" data-date="2027-04-22">22</span><span class="cal-day" data-date="2027-04-23">23</span><span class="cal-day" data-date="2027-04-24">24</span><a class="cal-day event faith" href="#d-2027-04-25" data-date="2027-04-25" title="Вербна неділя" aria-label="25 квітня: Вербна неділя">25</a><a class="cal-day event memory" href="#d-2027-04-26" data-date="2027-04-26" title="День пам&#x27;яті Чорнобильської трагедії" aria-label="26 квітня: День пам&#x27;яті Чорнобильської трагедії">26</a><span class="cal-day" data-date="2027-04-27">27</span><span class="cal-day" data-date="2027-04-28">28</span><span class="cal-day" data-date="2027-04-29">29</span><span class="cal-day" data-date="2027-04-30">30</span></div></div>
-      <div class="cal-month"><a class="cal-title" href="#month-2027-05">Травень <span>2027</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><a class="cal-day event state" href="#d-2027-05-01" data-date="2027-05-01" title="День праці" aria-label="1 травня: День праці">1</a><a class="cal-day event state" href="#d-2027-05-02" data-date="2027-05-02" title="Великдень — Воскресіння Христове" aria-label="2 травня: Великдень — Воскресіння Христове">2</a><span class="cal-day" data-date="2027-05-03">3</span><span class="cal-day" data-date="2027-05-04">4</span><span class="cal-day" data-date="2027-05-05">5</span><span class="cal-day" data-date="2027-05-06">6</span><span class="cal-day" data-date="2027-05-07">7</span><a class="cal-day event state" href="#d-2027-05-08" data-date="2027-05-08" title="День пам&#x27;яті та перемоги над нацизмом — 1939–1945" aria-label="8 травня: День пам&#x27;яті та перемоги над нацизмом — 1939–1945">8</a><a class="cal-day event sum" href="#d-2027-05-09" data-date="2027-05-09" title="Свято Матері — 2-га неділя травня" aria-label="9 травня: Свято Матері — 2-га неділя травня">9</a><span class="cal-day" data-date="2027-05-10">10</span><a class="cal-day event folk" href="#d-2027-05-11" data-date="2027-05-11" title="Проводи — поминальні дні" aria-label="11 травня: Проводи — поминальні дні">11</a><span class="cal-day" data-date="2027-05-12">12</span><span class="cal-day" data-date="2027-05-13">13</span><span class="cal-day" data-date="2027-05-14">14</span><span class="cal-day" data-date="2027-05-15">15</span><span class="cal-day" data-date="2027-05-16">16</span><span class="cal-day" data-date="2027-05-17">17</span><span class="cal-day" data-date="2027-05-18">18</span><span class="cal-day" data-date="2027-05-19">19</span><span class="cal-day" data-date="2027-05-20">20</span><span class="cal-day" data-date="2027-05-21">21</span><span class="cal-day" data-date="2027-05-22">22</span><a class="cal-day event memory" href="#d-2027-05-23" data-date="2027-05-23" title="День Героїв" aria-label="23 травня: День Героїв">23</a><span class="cal-day" data-date="2027-05-24">24</span><span class="cal-day" data-date="2027-05-25">25</span><span class="cal-day" data-date="2027-05-26">26</span><span class="cal-day" data-date="2027-05-27">27</span><span class="cal-day" data-date="2027-05-28">28</span><span class="cal-day" data-date="2027-05-29">29</span><span class="cal-day" data-date="2027-05-30">30</span><span class="cal-day" data-date="2027-05-31">31</span></div></div>
-      <div class="cal-month"><a class="cal-title" href="#month-2027-06">Червень <span>2027</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><span class="cal-day empty"></span><span class="cal-day" data-date="2027-06-01">1</span><span class="cal-day" data-date="2027-06-02">2</span><span class="cal-day" data-date="2027-06-03">3</span><span class="cal-day" data-date="2027-06-04">4</span><span class="cal-day" data-date="2027-06-05">5</span><span class="cal-day" data-date="2027-06-06">6</span><span class="cal-day" data-date="2027-06-07">7</span><span class="cal-day" data-date="2027-06-08">8</span><span class="cal-day" data-date="2027-06-09">9</span><a class="cal-day event faith" href="#d-2027-06-10" data-date="2027-06-10" title="Вознесіння Господнє" aria-label="10 червня: Вознесіння Господнє">10</a><span class="cal-day" data-date="2027-06-11">11</span><span class="cal-day" data-date="2027-06-12">12</span><span class="cal-day" data-date="2027-06-13">13</span><span class="cal-day" data-date="2027-06-14">14</span><span class="cal-day" data-date="2027-06-15">15</span><span class="cal-day" data-date="2027-06-16">16</span><span class="cal-day" data-date="2027-06-17">17</span><span class="cal-day" data-date="2027-06-18">18</span><span class="cal-day" data-date="2027-06-19">19</span><a class="cal-day event state" href="#d-2027-06-20" data-date="2027-06-20" title="Трійця — Зелені свята" aria-label="20 червня: Трійця — Зелені свята">20</a><span class="cal-day" data-date="2027-06-21">21</span><span class="cal-day" data-date="2027-06-22">22</span><span class="cal-day" data-date="2027-06-23">23</span><a class="cal-day event folk" href="#d-2027-06-24" data-date="2027-06-24" title="Івана Купала" aria-label="24 червня: Івана Купала">24</a><span class="cal-day" data-date="2027-06-25">25</span><span class="cal-day" data-date="2027-06-26">26</span><span class="cal-day" data-date="2027-06-27">27</span><a class="cal-day event state" href="#d-2027-06-28" data-date="2027-06-28" title="День Конституції України" aria-label="28 червня: День Конституції України">28</a><span class="cal-day" data-date="2027-06-29">29</span><span class="cal-day" data-date="2027-06-30">30</span></div></div>
-      <div class="cal-month"><a class="cal-title" href="#month-2027-07">Липень <span>2027</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day" data-date="2027-07-01">1</span><span class="cal-day" data-date="2027-07-02">2</span><span class="cal-day" data-date="2027-07-03">3</span><span class="cal-day" data-date="2027-07-04">4</span><span class="cal-day" data-date="2027-07-05">5</span><span class="cal-day" data-date="2027-07-06">6</span><span class="cal-day" data-date="2027-07-07">7</span><span class="cal-day" data-date="2027-07-08">8</span><span class="cal-day" data-date="2027-07-09">9</span><span class="cal-day" data-date="2027-07-10">10</span><span class="cal-day" data-date="2027-07-11">11</span><span class="cal-day" data-date="2027-07-12">12</span><span class="cal-day" data-date="2027-07-13">13</span><span class="cal-day" data-date="2027-07-14">14</span><a class="cal-day event state" href="#d-2027-07-15" data-date="2027-07-15" title="День Української Державності" aria-label="15 липня: День Української Державності">15</a><span class="cal-day" data-date="2027-07-16">16</span><span class="cal-day" data-date="2027-07-17">17</span><span class="cal-day" data-date="2027-07-18">18</span><span class="cal-day" data-date="2027-07-19">19</span><span class="cal-day" data-date="2027-07-20">20</span><span class="cal-day" data-date="2027-07-21">21</span><span class="cal-day" data-date="2027-07-22">22</span><span class="cal-day" data-date="2027-07-23">23</span><span class="cal-day" data-date="2027-07-24">24</span><span class="cal-day" data-date="2027-07-25">25</span><span class="cal-day" data-date="2027-07-26">26</span><span class="cal-day" data-date="2027-07-27">27</span><span class="cal-day" data-date="2027-07-28">28</span><span class="cal-day" data-date="2027-07-29">29</span><span class="cal-day" data-date="2027-07-30">30</span><span class="cal-day" data-date="2027-07-31">31</span></div></div>
-      <div class="cal-month"><a class="cal-title" href="#month-2027-08">Серпень <span>2027</span></a><div class="cal-dow"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span></div><div class="cal-days"><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><span class="cal-day empty"></span><a class="cal-day event folk" href="#d-2027-08-01" data-date="2027-08-01" title="Маковія — перший Спас" aria-label="1 серпня: Маковія — перший Спас">1</a><span class="cal-day" data-date="2027-08-02">2</span><span class="cal-day" data-date="2027-08-03">3</span><span class="cal-day" data-date="2027-08-04">4</span><span class="cal-day" data-date="2027-08-05">5</span><a class="cal-day event faith" href="#d-2027-08-06" data-date="2027-08-06" title="Яблучний Спас — Преображення Господнє" aria-label="6 серпня: Яблучний Спас — Преображення Господнє">6</a><span class="cal-day" data-date="2027-08-07">7</span><span class="cal-day" data-date="2027-08-08">8</span><span class="cal-day" data-date="2027-08-09">9</span><span class="cal-day" data-date="2027-08-10">10</span><span class="cal-day" data-date="2027-08-11">11</span><span class="cal-day" data-date="2027-08-12">12</span><span class="cal-day" data-date="2027-08-13">13</span><span class="cal-day" data-date="2027-08-14">14</span><a class="cal-day event faith" href="#d-2027-08-15" data-date="2027-08-15" title="Успіння Пресвятої Богородиці — другий Спас" aria-label="15 серпня: Успіння Пресвятої Богородиці — другий Спас">15</a><span class="cal-day" data-date="2027-08-16">16</span><span class="cal-day" data-date="2027-08-17">17</span><span class="cal-day" data-date="2027-08-18">18</span><span class="cal-day" data-date="2027-08-19">19</span><span class="cal-day" data-date="2027-08-20">20</span><span class="cal-day" data-date="2027-08-21">21</span><span class="cal-day" data-date="2027-08-22">22</span><span class="cal-day" data-date="2027-08-23">23</span><a class="cal-day event state" href="#d-2027-08-24" data-date="2027-08-24" title="День незалежності України" aria-label="24 серпня: День незалежності України">24</a><span class="cal-day" data-date="2027-08-25">25</span><span class="cal-day" data-date="2027-08-26">26</span><span class="cal-day" data-date="2027-08-27">27</span><span class="cal-day" data-date="2027-08-28">28</span><span class="cal-day" data-date="2027-08-29">29</span><span class="cal-day" data-date="2027-08-30">30</span><span class="cal-day" data-date="2027-08-31">31</span></div></div>
-    </div>
+    <div class="cal-grid" id="calGrid"></div>
   </section>
 
   <section class="events">
     <h2>Події по місяцях</h2>
-
-    <section class="month" id="month-2026-09"><h3 class="month-head"><span>Вересень 2026</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2026-09-01"><span class="date">1 вт</span><div class="entry sum"><div class="title">День знань <span class="tag">— початок виховного року</span></div><div class="desc">Традиційний початок навчального й СУМівського сезону — перші осінні сходини.</div></div></li>
-      </ul></section>
-
-    <section class="month" id="month-2026-10"><h3 class="month-head"><span>Жовтень 2026</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2026-10-01"><span class="date">1 чт</span><div class="entry state"><div class="title">День захисників і захисниць України <span class="tag">— і Покрова Пресвятої Богородиці</span></div><div class="desc">Державне свято, того ж дня за новим стилем — Покрова та День українського козацтва.</div></div></li>
-      </ul></section>
-
-    <section class="month" id="month-2026-11"><h3 class="month-head"><span>Листопад 2026</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2026-11-01"><span class="date">1 нд</span><div class="entry faith"><div class="title">День усіх святих <span class="tag">— відвідини могил</span></div><div class="desc">Молитва за померлих і відвідини могил.</div></div></li>
-        <li class="day" id="d-2026-11-08"><span class="date">8 нд</span><div class="entry sum"><div class="title">Собор Архистратига Михаїла <span class="tag">— покровитель СУМ</span></div><div class="desc">Свято небесного покровителя Спілки Української Молоді.</div></div></li>
-        <li class="day" id="d-2026-11-09"><span class="date">9 пн</span><div class="entry state"><div class="title">День української писемності та мови</div></div></li>
-        <li class="day" id="d-2026-11-21"><span class="date">21 сб</span><div class="entry memory"><div class="title">День Гідності та Свободи</div><div class="desc">На згадку про Помаранчеву революцію та Революцію Гідності.</div></div></li>
-        <li class="day" id="d-2026-11-28"><span class="date">28 сб</span><div class="entry memory"><div class="title">День пам&#x27;яті жертв Голодоморів</div><div class="desc">Остання субота листопада — хвилина мовчання о 16:00.</div></div></li>
-        <li class="day" id="d-2026-11-30"><span class="date">30 пн</span><div class="entry folk"><div class="title">Андрія <span class="tag">— Андріївські вечорниці</span></div><div class="desc">Народні ворожіння, забави й пісні.</div></div></li>
-      </ul></section>
-
-    <section class="month" id="month-2026-12"><h3 class="month-head"><span>Грудень 2026</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2026-12-06"><span class="date">6 нд</span><div class="entry sum"><div class="title">День Збройних Сил України <span class="tag">— і Свято Миколая</span></div><div class="desc">Того ж дня, за новим стилем, — Свято Миколая.</div></div></li>
-        <li class="day" id="d-2026-12-25"><span class="date">25 пт</span><div class="entry state"><div class="title">Різдво Христове</div><div class="desc">Державне свято (з 2023 р. офіційна дата — 25 грудня).</div></div></li>
-      </ul></section>
-
-    <section class="month" id="month-2027-01"><h3 class="month-head"><span>Січень 2027</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2027-01-01"><span class="date">1 пт</span><div class="entry state"><div class="title">Новий рік</div></div></li>
-        <li class="day" id="d-2027-01-06"><span class="date">6 ср</span><div class="entry faith"><div class="title">Богоявлення <span class="tag">— Водохреще, Йордан</span></div></div></li>
-        <li class="day" id="d-2027-01-22"><span class="date">22 пт</span><div class="entry state"><div class="title">День Соборності України</div><div class="desc">На згадку про Акт злуки УНР та ЗУНР 1919 року.</div></div></li>
-        <li class="day" id="d-2027-01-29"><span class="date">29 пт</span><div class="entry memory"><div class="title">День пам&#x27;яті Героїв Крут</div><div class="desc">Одна з найважливіших СУМівських дат вшанування — бій під Крутами 1918 року.</div></div></li>
-      </ul></section>
-
-    <section class="month" id="month-2027-02"><h3 class="month-head"><span>Лютий 2027</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2027-02-01"><span class="date">1–2</span><div class="entry sum"><div class="title">Річниця заснування Крайової організації СУМ в Іспанії <span class="tag">— і Стрітення Господнє</span></div><div class="desc">Установчий З&#x27;їзд відбувся 1–2 лютого 2020 року в Мадриді; 2 лютого за новим стилем — і церковне свято Стрітення.</div></div></li>
-        <li class="day" id="d-2027-02-20"><span class="date">20 сб</span><div class="entry memory"><div class="title">День Героїв Небесної Сотні</div></div></li>
-        <li class="day" id="d-2027-02-21"><span class="date">21 нд</span><div class="entry state"><div class="title">Міжнародний день рідної мови</div></div></li>
-      </ul></section>
-
-    <section class="month" id="month-2027-03"><h3 class="month-head"><span>Березень 2027</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2027-03-05"><span class="date">5 пт</span><div class="entry memory"><div class="title">День пам&#x27;яті Романа Шухевича <span class="tag">— «Тарас Чупринка»</span></div><div class="desc">Вшанування пам&#x27;яті Головного командира УПА, який загинув у бою під Львовом 5 березня 1950 року.</div></div></li>
-        <li class="day" id="d-2027-03-08"><span class="date">8 пн</span><div class="entry state"><div class="title">Міжнародний жіночий день</div></div></li>
-        <li class="day" id="d-2027-03-09"><span class="date">9 вт</span><div class="entry state"><div class="title">День народження Тараса Шевченка</div><div class="desc">Шевченківські дні — вірші, пісні, виховна година про Кобзаря.</div></div></li>
-        <li class="day" id="d-2027-03-14"><span class="date">14 нд</span><div class="entry folk"><div class="title">Прощена неділя <span class="tag">— завершення Масляної</span></div><div class="desc">Орієнтовно; наступного дня починається Великий піст.</div></div></li>
-        <li class="day" id="d-2027-03-25"><span class="date">25 чт</span><div class="entry faith"><div class="title">Благовіщення Пресвятої Богородиці</div></div></li>
-      </ul></section>
-
-    <section class="month" id="month-2027-04"><h3 class="month-head"><span>Квітень 2027</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2027-04-07"><span class="date">7 ср</span><div class="entry sum"><div class="title">Преподобна Йосафата Гордашевська <span class="tag">— покровителька капеланії Мадрида</span></div><div class="desc">Співзасновниця Згромадження сестер служебниць Непорочної Діви Марії відійшла у Бозі 7 квітня 1919 року; її іменем названо капеланію в Хетафе, де діє наш осередок.</div></div></li>
-        <li class="day" id="d-2027-04-25"><span class="date">25 нд</span><div class="entry faith"><div class="title">Вербна неділя</div></div></li>
-        <li class="day" id="d-2027-04-26"><span class="date">26 пн</span><div class="entry memory"><div class="title">День пам&#x27;яті Чорнобильської трагедії</div></div></li>
-      </ul></section>
-
-    <section class="month" id="month-2027-05"><h3 class="month-head"><span>Травень 2027</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2027-05-01"><span class="date">1 сб</span><div class="entry state"><div class="title">День праці</div></div></li>
-        <li class="day" id="d-2027-05-02"><span class="date">2 нд</span><div class="entry state"><div class="title">Великдень <span class="tag">— Воскресіння Христове</span></div><div class="desc">Найбільше свято року — освячення пасок, спільна радість осередку.</div></div></li>
-        <li class="day" id="d-2027-05-08"><span class="date">8 сб</span><div class="entry state"><div class="title">День пам&#x27;яті та перемоги над нацизмом <span class="tag">— 1939–1945</span></div></div></li>
-        <li class="day" id="d-2027-05-09"><span class="date">9 нд</span><div class="entry sum"><div class="title">Свято Матері <span class="tag">— 2-га неділя травня</span></div><div class="desc">Традиційне СУМівське шанування матерів на сходинах.</div></div></li>
-        <li class="day" id="d-2027-05-11"><span class="date">11 вт</span><div class="entry folk"><div class="title">Проводи <span class="tag">— поминальні дні</span></div><div class="desc">Орієнтовний день відвідин могил згідно з народною традицією.</div></div></li>
-        <li class="day" id="d-2027-05-23"><span class="date">23 нд</span><div class="entry memory"><div class="title">День Героїв</div><div class="desc">Вшанування усіх захисників України різних поколінь.</div></div></li>
-      </ul></section>
-
-    <section class="month" id="month-2027-06"><h3 class="month-head"><span>Червень 2027</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2027-06-10"><span class="date">10 чт</span><div class="entry faith"><div class="title">Вознесіння Господнє</div></div></li>
-        <li class="day" id="d-2027-06-20"><span class="date">20 нд</span><div class="entry state"><div class="title">Трійця <span class="tag">— Зелені свята</span></div></div></li>
-        <li class="day" id="d-2027-06-24"><span class="date">24 чт</span><div class="entry folk"><div class="title">Івана Купала</div></div></li>
-        <li class="day" id="d-2027-06-28"><span class="date">28 пн</span><div class="entry state"><div class="title">День Конституції України</div></div></li>
-      </ul></section>
-
-    <section class="month" id="month-2027-07"><h3 class="month-head"><span>Липень 2027</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2027-07-15"><span class="date">15 чт</span><div class="entry state"><div class="title">День Української Державності</div></div></li>
-        <li class="day"><span class="date">лип–серп</span><div class="entry sum"><div class="title">Літні табори та вишколи СУМ</div><div class="desc">Орієнтовний сезон — точні терміни встановлює Крайова Управа СУМ в Іспанії.</div></div></li>
-      </ul></section>
-
-    <section class="month" id="month-2027-08"><h3 class="month-head"><span>Серпень 2027</span><a class="up" href="#calendar">↑ до календаря</a></h3><ul class="days">
-        <li class="day" id="d-2027-08-01"><span class="date">1 нд</span><div class="entry folk"><div class="title">Маковія <span class="tag">— перший Спас</span></div></div></li>
-        <li class="day" id="d-2027-08-06"><span class="date">6 пт</span><div class="entry faith"><div class="title">Яблучний Спас <span class="tag">— Преображення Господнє</span></div></div></li>
-        <li class="day" id="d-2027-08-15"><span class="date">15 нд</span><div class="entry faith"><div class="title">Успіння Пресвятої Богородиці <span class="tag">— другий Спас</span></div></div></li>
-        <li class="day" id="d-2027-08-24"><span class="date">24 вт</span><div class="entry state"><div class="title">День незалежності України</div></div></li>
-      </ul></section>
+    <div id="eventList"></div>
   </section>
 
+  <noscript><p class="lede">Щоб побачити календар, увімкніть JavaScript у браузері.</p></noscript>
 </div>
+
+<!-- Усі свята лежать у цьому файлі. Саме його й треба редагувати. -->
+<script src="events.js"></script>
 <script>
 (function(){
-  var d = new Date(), p = function(n){ return String(n).padStart(2,"0"); };
-  var iso = d.getFullYear() + "-" + p(d.getMonth()+1) + "-" + p(d.getDate());
-  var c = document.querySelector('[data-date="' + iso + '"]');
-  if(c) c.classList.add("today");
+  var CATS = {
+    state:  "Державне свято",
+    memory: "Пам'ятна дата",
+    faith:  "Релігійне свято",
+    folk:   "Народний звичай",
+    sum:    "СУМівське свято"
+  };
+  var MONTHS_NOM = ["Січень","Лютий","Березень","Квітень","Травень","Червень","Липень","Серпень","Вересень","Жовтень","Листопад","Грудень"];
+  var MONTHS_GEN = ["січня","лютого","березня","квітня","травня","червня","липня","серпня","вересня","жовтня","листопада","грудня"];
+  var DOW = ["нд","пн","вт","ср","чт","пт","сб"];            // як їх рахує JavaScript: 0 = неділя
+  var DOW_HEAD = ["Пн","Вт","Ср","Чт","Пт","Сб","Нд"];
+
+  function el(tag, cls, text){
+    var n = document.createElement(tag);
+    if(cls) n.className = cls;
+    if(text != null) n.textContent = text;
+    return n;
+  }
+  function pad(n){ return String(n).padStart(2, "0"); }
+  function isoOf(dt){ return dt.getFullYear() + "-" + pad(dt.getMonth() + 1) + "-" + pad(dt.getDate()); }
+
+  var notice = document.getElementById("notice");
+  function showNotice(heading, list){
+    notice.hidden = false;
+    notice.textContent = "";
+    notice.appendChild(el("strong", null, heading));
+    if(list && list.length){
+      var ul = el("ul");
+      list.forEach(function(t){ ul.appendChild(el("li", null, t)); });
+      notice.appendChild(ul);
+    }
+  }
+
+  // Легенда
+  var legend = document.getElementById("legend");
+  Object.keys(CATS).forEach(function(k){
+    var item = el("span", "legend-item");
+    item.appendChild(el("span", "dot " + k));
+    item.appendChild(document.createTextNode(CATS[k]));
+    legend.appendChild(item);
+  });
+
+  // events.js не прочитався (немає файлу або в ньому синтаксична помилка)
+  if(typeof CALENDAR_EVENTS === "undefined" || !Array.isArray(CALENDAR_EVENTS)){
+    showNotice("Не вдалося прочитати файл events.js.",
+      ["Найчастіша причина — пропущена лапка, кома або дужка в щойно зміненому рядку.",
+       "Поверніть попередню версію файлу (на GitHub: відкрийте events.js → History → потрібна версія)."]);
+    return;
+  }
+
+  var TITLE  = (typeof CALENDAR_TITLE === "string" && CALENDAR_TITLE) ? CALENDAR_TITLE : "Календар свят";
+  var START  = (typeof CALENDAR_START === "string" && /^\d{4}-(0[1-9]|1[0-2])$/.test(CALENDAR_START)) ? CALENDAR_START : "2026-09";
+  var COUNT  = (typeof CALENDAR_MONTHS === "number" && CALENDAR_MONTHS >= 1 && CALENDAR_MONTHS <= 24) ? Math.floor(CALENDAR_MONTHS) : 12;
+  document.getElementById("pageTitle").textContent = TITLE;
+  document.title = TITLE + " — СУМ Мадрид";
+
+  // Місяці, які показує календар
+  var sp = START.split("-"), y0 = +sp[0], m0 = +sp[1];
+  var months = [], monthKeys = {};
+  for(var i = 0; i < COUNT; i++){
+    var mm = m0 - 1 + i;
+    var M = { y: y0 + Math.floor(mm / 12), m: (mm % 12) + 1 };
+    M.key = M.y + "-" + pad(M.m);
+    months.push(M);
+    monthKeys[M.key] = true;
+  }
+
+  function parseDate(s){
+    var r = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || "");
+    if(!r) return null;
+    var y = +r[1], mo = +r[2], d = +r[3], dt = new Date(y, mo - 1, d);
+    if(dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return null;
+    return { y: y, m: mo, d: d, dt: dt, iso: s };
+  }
+
+  // Розбір і перевірка записів
+  var problems = [], items = [], idCount = {};
+  CALENDAR_EVENTS.forEach(function(e, idx){
+    var where = "запис №" + (idx + 1) + ((e && e.title) ? " («" + e.title + "»)" : "");
+    if(!e || typeof e !== "object"){ problems.push(where + ": неправильний запис"); return; }
+    if(!e.title){ problems.push(where + ": немає назви (title)"); return; }
+    if(!CATS[e.cat]){ problems.push(where + ": невідома категорія «" + e.cat + "» (є: state, memory, faith, folk, sum)"); return; }
+
+    var it = {
+      order: idx, cat: e.cat, title: String(e.title),
+      tag: e.tag ? String(e.tag) : "", desc: e.desc ? String(e.desc) : "",
+      label: e.label ? String(e.label) : "", start: null, end: null, monthKey: null, id: null
+    };
+    var ds = String(e.date || "");
+    var full = parseDate(ds);
+    if(full){
+      it.start = full;
+      it.monthKey = ds.slice(0, 7);
+      if(e.end){
+        var en = parseDate(String(e.end));
+        if(!en || en.dt < full.dt){ problems.push(where + ": неправильна дата закінчення (end)"); return; }
+        it.end = en;
+      }
+      var c = (idCount[ds] = (idCount[ds] || 0) + 1);
+      it.id = "d-" + ds + (c > 1 ? "-" + c : "");
+    } else if(/^\d{4}-(0[1-9]|1[0-2])$/.test(ds)){
+      it.monthKey = ds;
+    } else {
+      problems.push(where + ": неправильна дата «" + ds + "» (потрібно РРРР-ММ-ДД, наприклад 2027-05-09)");
+      return;
+    }
+    if(!monthKeys[it.monthKey]){
+      problems.push(where + ": дата " + ds + " поза місяцями календаря (див. CALENDAR_START і CALENDAR_MONTHS)");
+      return;
+    }
+    items.push(it);
+  });
+  if(problems.length) showNotice("У файлі events.js є помилки — ці записи не показано:", problems);
+
+  // День → перша подія цього дня (для багатоденних — усі дні)
+  var byDate = {};
+  items.forEach(function(it){
+    if(!it.start) return;
+    var last = it.end ? it.end.dt : it.start.dt;
+    for(var d = new Date(it.start.dt); d <= last; d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)){
+      var iso = isoOf(d);
+      if(!byDate[iso]) byDate[iso] = it;
+    }
+  });
+  function tip(it){ return it.title + (it.tag ? " — " + it.tag : ""); }
+
+  // Сітка календаря
+  var grid = document.getElementById("calGrid");
+  months.forEach(function(M){
+    var card = el("div", "cal-month");
+    var title = el("a", "cal-title");
+    title.href = "#month-" + M.key;
+    title.appendChild(document.createTextNode(MONTHS_NOM[M.m - 1] + " "));
+    title.appendChild(el("span", null, String(M.y)));
+    card.appendChild(title);
+
+    var dow = el("div", "cal-dow");
+    DOW_HEAD.forEach(function(x){ dow.appendChild(el("span", null, x)); });
+    card.appendChild(dow);
+
+    var days = el("div", "cal-days");
+    var lead = (new Date(M.y, M.m - 1, 1).getDay() + 6) % 7;   // тиждень починається з понеділка
+    for(var k = 0; k < lead; k++) days.appendChild(el("span", "cal-day empty"));
+    var n = new Date(M.y, M.m, 0).getDate();
+    for(var d = 1; d <= n; d++){
+      var iso = M.key + "-" + pad(d), it = byDate[iso], cell;
+      if(it){
+        cell = el("a", "cal-day event " + it.cat, String(d));
+        cell.href = "#" + it.id;
+        cell.title = tip(it);
+        cell.setAttribute("aria-label", d + " " + MONTHS_GEN[M.m - 1] + ": " + tip(it));
+      } else {
+        cell = el("span", "cal-day", String(d));
+      }
+      cell.setAttribute("data-date", iso);
+      days.appendChild(cell);
+    }
+    card.appendChild(days);
+    grid.appendChild(card);
+  });
+
+  // Список подій по місяцях
+  var list = document.getElementById("eventList");
+  months.forEach(function(M){
+    var sec = el("section", "month");
+    sec.id = "month-" + M.key;
+    var head = el("h3", "month-head");
+    head.appendChild(el("span", null, MONTHS_NOM[M.m - 1] + " " + M.y));
+    var up = el("a", "up", "↑ до календаря");
+    up.href = "#calendar";
+    head.appendChild(up);
+    sec.appendChild(head);
+
+    var inMonth = items.filter(function(it){ return it.monthKey === M.key; });
+    inMonth.sort(function(a, b){
+      var ka = a.start ? a.start.iso : "9999", kb = b.start ? b.start.iso : "9999";
+      return ka < kb ? -1 : ka > kb ? 1 : a.order - b.order;
+    });
+
+    if(!inMonth.length){
+      sec.appendChild(el("div", "empty-month", "Подій у цьому місяці поки немає."));
+    } else {
+      var ul = el("ul", "days");
+      inMonth.forEach(function(it){
+        var label;
+        if(it.start && it.end){
+          label = (it.end.m === it.start.m) ? it.start.d + "–" + it.end.d
+                                            : pad(it.start.d) + "." + pad(it.start.m) + "–" + pad(it.end.d) + "." + pad(it.end.m);
+        } else if(it.start){
+          label = it.start.d + " " + DOW[it.start.dt.getDay()];
+        } else {
+          label = it.label;
+        }
+        var li = el("li", "day");
+        if(it.id) li.id = it.id;
+        li.appendChild(el("span", "date", label));
+        var entry = el("div", "entry " + it.cat);
+        var t = el("div", "title", it.title);
+        if(it.tag){ t.appendChild(document.createTextNode(" ")); t.appendChild(el("span", "tag", "— " + it.tag)); }
+        entry.appendChild(t);
+        if(it.desc) entry.appendChild(el("div", "desc", it.desc));
+        li.appendChild(entry);
+        ul.appendChild(li);
+      });
+      sec.appendChild(ul);
+    }
+    list.appendChild(sec);
+  });
+
+  // Сьогоднішній день
+  var todayCell = document.querySelector('[data-date="' + isoOf(new Date()) + '"]');
+  if(todayCell) todayCell.classList.add("today");
+
+  // Перехід до події з підсвічуванням
+  function goTo(id, smooth){
+    var t = document.getElementById(id);
+    if(!t) return;
+    t.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+    if(id.indexOf("d-") === 0){
+      t.classList.remove("flash");
+      void t.offsetWidth;
+      t.classList.add("flash");
+      setTimeout(function(){ t.classList.remove("flash"); }, 2300);
+    }
+  }
+  document.addEventListener("click", function(e){
+    var a = e.target.closest && e.target.closest("a.cal-day.event");
+    if(!a) return;
+    e.preventDefault();
+    var id = a.getAttribute("href").slice(1);
+    try { history.pushState(null, "", "#" + id); } catch(err){ location.hash = id; return; }
+    goTo(id, true);
+  });
+  window.addEventListener("hashchange", function(){ goTo(location.hash.slice(1), true); });
+  // Посилання на конкретну подію (…/#d-2026-11-01) відкриває її одразу
+  if(location.hash.length > 1) setTimeout(function(){ goTo(location.hash.slice(1), false); }, 50);
 })();
 </script>
 </body>
