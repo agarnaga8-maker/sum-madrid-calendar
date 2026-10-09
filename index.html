@@ -46,6 +46,14 @@
   .dot.folk,.cal-day.folk{ background:var(--forest); }
   .dot.sum,.cal-day.sum{ background:var(--gold); }
 
+  /* зразки в легенді для позначок «заплановано» */
+  .sample{ position:relative; width:15px; height:15px; border-radius:3px; flex:none; }
+  .sample::after{ content:""; position:absolute; top:2px; right:2px; width:5px; height:5px; border-radius:50%; }
+  .sample.dotted{ background:var(--soft); }
+  .sample.dotted::after{ background:var(--on); }
+  .sample.framed{ border:2px solid var(--ink); }
+  .sample.framed::after{ background:var(--ink); }
+
   .cal-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:18px; }
   .cal-month{ border:1px solid var(--rule); border-radius:6px; padding:12px 12px 14px; }
   .cal-title{ display:inline-block; margin-bottom:8px; font-weight:700; font-size:15px; color:var(--ink); text-decoration:none; }
@@ -54,13 +62,18 @@
   .cal-dow,.cal-days{ display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
   .cal-dow{ margin-bottom:3px; }
   .cal-dow span{ font-size:10px; text-align:center; font-weight:600; color:var(--soft); }
-  .cal-day{ aspect-ratio:1; min-height:30px; display:flex; align-items:center; justify-content:center;
+  .cal-day{ position:relative; aspect-ratio:1; min-height:30px; display:flex; align-items:center; justify-content:center;
             font-size:13px; border-radius:4px; color:var(--soft); text-decoration:none; }
-  a.cal-day.event{ color:var(--on); font-weight:700; cursor:pointer; }
-  a.cal-day.event:hover{ opacity:0.85; }
-  a.cal-day.event:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
-  .cal-day.today{ box-shadow:inset 0 0 0 2px var(--ink); color:var(--ink); }
-  a.cal-day.event.today{ color:var(--on); }
+  a.cal-day{ font-weight:700; cursor:pointer; }
+  a.cal-day:hover{ opacity:0.85; }
+  a.cal-day:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  a.cal-day.filled{ color:var(--on); }                                   /* свято — кольорова заливка */
+  a.cal-day.planonly{ color:var(--ink); border:2px solid var(--ink); }   /* лише план — рамка */
+  .cal-day.planned::after{ content:""; position:absolute; top:3px; right:3px; width:7px; height:7px;
+                           border-radius:50%; background:var(--on); }    /* є план — крапка */
+  .cal-day.planonly.planned::after{ background:var(--ink); }
+  .cal-day.today{ color:var(--ink); font-weight:700; text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:2px; }
+  a.cal-day.filled.today{ color:var(--on); }
 
   .events{ margin-top:52px; }
   .events > h2{ margin:0 0 4px; font-size:22px; }
@@ -83,9 +96,18 @@
   .entry.faith{ border-color:var(--violet); }
   .entry.folk{ border-color:var(--forest); }
   .entry.sum{ border-color:var(--gold); }
+  .entry.plan{ padding-left:0; border-left:0; }
   .title{ font-weight:600; font-size:15.5px; }
   .tag{ font-weight:400; font-size:13px; color:var(--soft); }
   .desc{ margin-top:2px; font-size:14px; color:var(--soft); }
+
+  /* блок «заплановано» у списку подій */
+  .plan{ margin-top:10px; padding:9px 11px; border:1px solid var(--ink); border-radius:5px; }
+  .entry.plan > .plan:first-child{ margin-top:0; }
+  .plan-head{ display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px; }
+  .plan-badge{ padding:1px 9px; border-radius:99px; background:var(--ink); color:var(--bg); font-size:12px; font-weight:600; }
+  .plan-title{ font-weight:600; font-size:15px; }
+  .plan-meta{ margin-top:4px; font-size:13.5px; color:var(--soft); }
 </style>
 </head>
 <body>
@@ -113,8 +135,9 @@
   <noscript><p class="lede">Щоб побачити календар, увімкніть JavaScript у браузері.</p></noscript>
 </div>
 
-<!-- Усі свята лежать у цьому файлі. Саме його й треба редагувати. -->
+<!-- Свята: events.js. Наші заплановані заходи: plans.js (файлу може й не бути). -->
 <script src="events.js"></script>
+<script src="plans.js" onload="window.__plansLoaded=true"></script>
 <script>
 (function(){
   var CATS = {
@@ -137,6 +160,7 @@
   }
   function pad(n){ return String(n).padStart(2, "0"); }
   function isoOf(dt){ return dt.getFullYear() + "-" + pad(dt.getMonth() + 1) + "-" + pad(dt.getDate()); }
+  function nextDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1); }
 
   var notice = document.getElementById("notice");
   function showNotice(heading, list){
@@ -150,7 +174,7 @@
     }
   }
 
-  // Легенда
+  // Легенда: категорії свят
   var legend = document.getElementById("legend");
   Object.keys(CATS).forEach(function(k){
     var item = el("span", "legend-item");
@@ -191,11 +215,16 @@
     if(dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return null;
     return { y: y, m: mo, d: d, dt: dt, iso: s };
   }
+  function fmtRange(a, b){
+    if(!b || b.iso === a.iso) return a.d + " " + MONTHS_GEN[a.m - 1];
+    if(a.m === b.m && a.y === b.y) return a.d + "–" + b.d + " " + MONTHS_GEN[a.m - 1];
+    return a.d + " " + MONTHS_GEN[a.m - 1] + " – " + b.d + " " + MONTHS_GEN[b.m - 1];
+  }
 
-  // Розбір і перевірка записів
+  // ---------- Свята (events.js) ----------
   var problems = [], items = [], idCount = {};
   CALENDAR_EVENTS.forEach(function(e, idx){
-    var where = "запис №" + (idx + 1) + ((e && e.title) ? " («" + e.title + "»)" : "");
+    var where = "events.js, запис №" + (idx + 1) + ((e && e.title) ? " («" + e.title + "»)" : "");
     if(!e || typeof e !== "object"){ problems.push(where + ": неправильний запис"); return; }
     if(!e.title){ problems.push(where + ": немає назви (title)"); return; }
     if(!CATS[e.cat]){ problems.push(where + ": невідома категорія «" + e.cat + "» (є: state, memory, faith, folk, sum)"); return; }
@@ -203,7 +232,8 @@
     var it = {
       order: idx, cat: e.cat, title: String(e.title),
       tag: e.tag ? String(e.tag) : "", desc: e.desc ? String(e.desc) : "",
-      label: e.label ? String(e.label) : "", start: null, end: null, monthKey: null, id: null
+      label: e.label ? String(e.label) : "", start: null, end: null, monthKey: null, id: null,
+      plans: [], planOnly: false
     };
     var ds = String(e.date || "");
     var full = parseDate(ds);
@@ -229,21 +259,91 @@
     }
     items.push(it);
   });
-  if(problems.length) showNotice("У файлі events.js є помилки — ці записи не показано:", problems);
 
-  // День → перша подія цього дня (для багатоденних — усі дні)
-  var byDate = {};
+  // День → перше свято цього дня (для багатоденних — усі дні)
+  var hol = {};
   items.forEach(function(it){
     if(!it.start) return;
     var last = it.end ? it.end.dt : it.start.dt;
-    for(var d = new Date(it.start.dt); d <= last; d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)){
+    for(var d = new Date(it.start.dt); d <= last; d = nextDay(d)){
       var iso = isoOf(d);
-      if(!byDate[iso]) byDate[iso] = it;
+      if(!hol[iso]) hol[iso] = it;
     }
   });
-  function tip(it){ return it.title + (it.tag ? " — " + it.tag : ""); }
 
-  // Сітка календаря
+  // ---------- Плани осередку (plans.js) ----------
+  var planned = {};      // дата → true, якщо в цей день у нас щось заплановано
+  var plansOn = {};      // дата → назви планів
+  var target = {};       // дата → запис, до якого веде клік по числу
+  Object.keys(hol).forEach(function(k){ target[k] = hol[k]; });
+
+  var PLANS = [];
+  if(window.__plansLoaded && typeof CALENDAR_PLANS === "undefined"){
+    problems.push("Файл plans.js не вдалося прочитати: перевірте лапки, коми й дужки в останньому зміненому рядку. Плани поки не показано.");
+  } else if(typeof CALENDAR_PLANS !== "undefined"){
+    if(Array.isArray(CALENDAR_PLANS)) PLANS = CALENDAR_PLANS;
+    else problems.push("plans.js: CALENDAR_PLANS має бути списком у квадратних дужках [ ... ]");
+  }
+  var plansCount = 0;
+  PLANS.forEach(function(p, idx){
+    var where = "plans.js, план №" + (idx + 1) + ((p && p.title) ? " («" + p.title + "»)" : "");
+    if(!p || typeof p !== "object"){ problems.push(where + ": неправильний запис"); return; }
+    if(!p.title){ problems.push(where + ": немає назви (title)"); return; }
+    var s = parseDate(String(p.date || ""));
+    if(!s){ problems.push(where + ": неправильна дата «" + (p.date || "") + "» (потрібно РРРР-ММ-ДД, наприклад 2026-11-08)"); return; }
+    var e2 = s;
+    if(p.end){
+      e2 = parseDate(String(p.end));
+      if(!e2 || e2.dt < s.dt){ problems.push(where + ": неправильна дата закінчення (end)"); return; }
+      if((e2.dt - s.dt) / 86400000 > 120){ problems.push(where + ": подія довша за 120 днів — перевірте end"); return; }
+    }
+    if(!monthKeys[s.iso.slice(0, 7)]){ problems.push(where + ": дата " + s.iso + " поза місяцями календаря"); return; }
+
+    var plan = {
+      title: String(p.title), time: p.time ? String(p.time) : "", place: p.place ? String(p.place) : "",
+      who: p.who ? String(p.who) : "", desc: p.desc ? String(p.desc) : "",
+      start: s, end: p.end ? e2 : null
+    };
+    var host = target[s.iso];
+    if(!host){
+      host = { order: 1000000 + idx, cat: "plan", title: "", tag: "", desc: "", label: "", start: s, end: null,
+               monthKey: s.iso.slice(0, 7), id: "d-" + s.iso, plans: [], planOnly: true };
+      items.push(host);
+      target[s.iso] = host;
+    }
+    host.plans.push(plan);
+    plansCount++;
+    for(var d = new Date(s.dt); d <= e2.dt; d = nextDay(d)){
+      var iso = isoOf(d);
+      if(!monthKeys[iso.slice(0, 7)]) continue;
+      planned[iso] = true;
+      (plansOn[iso] = plansOn[iso] || []).push(plan.title);
+      if(!target[iso]) target[iso] = host;
+    }
+  });
+
+  if(problems.length) showNotice("Є помилки у файлах з даними — ці записи не показано:", problems);
+
+  // Легенда для позначок «заплановано» — лише коли такі плани є
+  if(plansCount){
+    [["dotted", "Крапка — у цей день у нас щось заплановано"],
+     ["framed", "Рамка — день без свята, але з планом"]].forEach(function(x){
+      var item = el("span", "legend-item");
+      item.appendChild(el("span", "sample " + x[0]));
+      item.appendChild(document.createTextNode(x[1]));
+      legend.appendChild(item);
+    });
+  }
+
+  function tip(it){ return it.title + (it.tag ? " — " + it.tag : ""); }
+  function cellTip(iso){
+    var parts = [];
+    if(hol[iso]) parts.push(tip(hol[iso]));
+    if(planned[iso]) parts.push("Заплановано: " + plansOn[iso].join(", "));
+    return parts.join(" · ");
+  }
+
+  // ---------- Сітка календаря ----------
   var grid = document.getElementById("calGrid");
   months.forEach(function(M){
     var card = el("div", "cal-month");
@@ -262,12 +362,13 @@
     for(var k = 0; k < lead; k++) days.appendChild(el("span", "cal-day empty"));
     var n = new Date(M.y, M.m, 0).getDate();
     for(var d = 1; d <= n; d++){
-      var iso = M.key + "-" + pad(d), it = byDate[iso], cell;
-      if(it){
-        cell = el("a", "cal-day event " + it.cat, String(d));
-        cell.href = "#" + it.id;
-        cell.title = tip(it);
-        cell.setAttribute("aria-label", d + " " + MONTHS_GEN[M.m - 1] + ": " + tip(it));
+      var iso = M.key + "-" + pad(d), tg = target[iso], cell;
+      if(tg){
+        var cls = "cal-day " + (hol[iso] ? "filled " + hol[iso].cat : "planonly") + (planned[iso] ? " planned" : "");
+        cell = el("a", cls, String(d));
+        cell.href = "#" + tg.id;
+        cell.title = cellTip(iso);
+        cell.setAttribute("aria-label", d + " " + MONTHS_GEN[M.m - 1] + ": " + cellTip(iso));
       } else {
         cell = el("span", "cal-day", String(d));
       }
@@ -278,7 +379,23 @@
     grid.appendChild(card);
   });
 
-  // Список подій по місяцях
+  // ---------- Список подій по місяцях ----------
+  function planBox(pl, host){
+    var box = el("div", "plan");
+    var head = el("div", "plan-head");
+    head.appendChild(el("span", "plan-badge", "Заплановано"));
+    head.appendChild(el("span", "plan-title", pl.title));
+    box.appendChild(head);
+    var meta = [];
+    if(pl.end || pl.start.iso !== host.start.iso) meta.push(fmtRange(pl.start, pl.end));
+    if(pl.time) meta.push(pl.time);
+    if(pl.place) meta.push(pl.place);
+    if(pl.who) meta.push("для: " + pl.who);
+    if(meta.length) box.appendChild(el("div", "plan-meta", meta.join(" · ")));
+    if(pl.desc) box.appendChild(el("div", "desc", pl.desc));
+    return box;
+  }
+
   var list = document.getElementById("eventList");
   months.forEach(function(M){
     var sec = el("section", "month");
@@ -313,11 +430,14 @@
         var li = el("li", "day");
         if(it.id) li.id = it.id;
         li.appendChild(el("span", "date", label));
-        var entry = el("div", "entry " + it.cat);
-        var t = el("div", "title", it.title);
-        if(it.tag){ t.appendChild(document.createTextNode(" ")); t.appendChild(el("span", "tag", "— " + it.tag)); }
-        entry.appendChild(t);
-        if(it.desc) entry.appendChild(el("div", "desc", it.desc));
+        var entry = el("div", "entry " + (it.planOnly ? "plan" : it.cat));
+        if(!it.planOnly){
+          var t = el("div", "title", it.title);
+          if(it.tag){ t.appendChild(document.createTextNode(" ")); t.appendChild(el("span", "tag", "— " + it.tag)); }
+          entry.appendChild(t);
+          if(it.desc) entry.appendChild(el("div", "desc", it.desc));
+        }
+        it.plans.forEach(function(pl){ entry.appendChild(planBox(pl, it)); });
         li.appendChild(entry);
         ul.appendChild(li);
       });
@@ -343,7 +463,7 @@
     }
   }
   document.addEventListener("click", function(e){
-    var a = e.target.closest && e.target.closest("a.cal-day.event");
+    var a = e.target.closest && e.target.closest("a.cal-day");
     if(!a) return;
     e.preventDefault();
     var id = a.getAttribute("href").slice(1);
